@@ -35,6 +35,10 @@ func main() {
 
 	app.Post("/signup", accountRepositoryDB.Signup)
 	app.Post("/signin", accountRepositoryDB.Signin)
+	app.Static("/", "./index", fiber.Static{
+		Index:         "index.html",
+		CacheDuration: time.Second * 10,
+	})
 
 	err = app.Listen(":3000")
 	if err != nil {
