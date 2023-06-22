@@ -6,27 +6,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// var db *sqlx.DB
-
 type User struct {
 	Id       int    `db:"id"`
 	Username string `db:"username"`
 	Password string `db:"password"`
 }
-
-// type SignUpRequest struct {
-// 	Username string
-// 	Password string
-// }
-
-// var (
-// 		var err error
-// 	db, err = sqlx.Open("mysql", "root:Bossza555@tcp(127.0.0.1:3306)/user")
-
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// )
 
 func Signup(c *fiber.Ctx) error {
 	request := SignUpRequest{}

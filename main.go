@@ -1,43 +1,77 @@
 package main
 
 import (
+	"fmt"
+	"time"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
+	"github.com/guatom999/go-auth/repositories"
 	"github.com/jmoiron/sqlx"
+	"github.com/spf13/viper"
 )
-
-var db *sqlx.DB
 
 func main() {
 
 	var err error
 
-	db, err = sqlx.Open("mysql", "root:Bossza555@tcp(127.0.0.1:3306)/user")
+	// db, err = sqlx.Open("mysql", "root:Bossza555@tcp(127.0.0.1:3306)/user")
+
+	initConfig()
+
+	db := initDB()
+
+	accountRepositoryDB := repositories.NewAccountRepository(db)
 
 	if err != nil {
 		panic(err)
 	}
 
+	// router := mux.NewRouter()
+
+	// router.HandleFunc("/singup", accountHandler.NewAccount).Methods(http.MethodPost)
+
 	app := fiber.New()
 
-	// app.Post("/signup", service.Signup)
-	// app.Get("/signin", service.Signup)
-
-	app.Post("/signup", Signup)
-	// app.Get("/signin", service.Signup)
-
-	// app.Get("/private", func(c *fiber.Ctx) error {
-	// 	return c.JSON(fiber.Map{"success": true, "path": "private"})
-	// })
-
-	// app.Get("/public", func(c *fiber.Ctx) error {
-	// 	return c.JSON(fiber.Map{"success": true, "path": "public"})
-	// })
+	app.Post("/signup", accountRepositoryDB.Signup)
+	app.Post("/signin", accountRepositoryDB.Signin)
 
 	err = app.Listen(":3000")
 	if err != nil {
 		panic(err)
 	}
+}
+
+func initConfig() {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath(".")
+	viper.AutomaticEnv()
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+}
+
+func initDB() *sqlx.DB {
+	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v",
+		viper.GetString("db.username"),
+		viper.GetString("db.password"),
+		viper.GetString("db.host"),
+		viper.GetString("db.port"),
+		viper.GetString("db.table"),
+	)
+
+	db, err := sqlx.Open(viper.GetString("db.driver"), dsn)
+	if err != nil {
+		panic(err)
+	}
+
+	db.SetConnMaxLifetime(3 * time.Minute)
+	db.SetMaxOpenConns(10)
+
+	return db
 }
 
 // type User struct {
