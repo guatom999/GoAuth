@@ -34,13 +34,13 @@ func main() {
 	app := fiber.New()
 
 	app.Post("/signup", accountRepositoryDB.Signup)
-	app.Post("/signin", accountRepositoryDB.Signin)
+	// app.Post("/signin", accountRepositoryDB.Signin)
 	app.Static("/", "./index", fiber.Static{
 		Index:         "index.html",
 		CacheDuration: time.Second * 10,
 	})
 
-	err = app.Listen(":3000")
+	err = app.Listen(":8000")
 	if err != nil {
 		panic(err)
 	}

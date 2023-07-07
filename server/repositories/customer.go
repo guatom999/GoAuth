@@ -1,7 +1,5 @@
 package repositories
 
-import "github.com/gofiber/fiber/v2"
-
 type Customer struct {
 	Id       int    `db:"id"`
 	Username string `db:"username"`
@@ -20,7 +18,8 @@ type LoginRequest struct {
 
 type CustomerRepository interface {
 	// Create(Customer) (*Customer, error)
-	Signup(c *fiber.Ctx) error
-	Signin(c *fiber.Ctx) error
+	Signup(request SignupRequest) (Customer, error)
+	// Signup(c *fiber.Ctx) error
+	// Signin(c *fiber.Ctx) error
 	//
 }
