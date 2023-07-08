@@ -34,7 +34,7 @@ func (a accountService) Signup(c *fiber.Ctx) (err error) {
 	user, err := a.accountRepo.Signup(request.Username, password)
 
 	if err != nil {
-		return fiber.ErrUnprocessableEntity
+		return fiber.NewError(fiber.StatusUnprocessableEntity, err.Error())
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(user)
