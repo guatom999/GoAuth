@@ -5,7 +5,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-const jwtSecret = "12345"
+// const jwtSecret = "12345"
 
 type customerRepositoryDB struct {
 	db *sqlx.DB
@@ -19,10 +19,12 @@ func NewAccountRepository(db *sqlx.DB) CustomerRepository {
 // 	return
 // }
 
-func (r customerRepositoryDB) Signup(request SignupRequest) (user Customer, err error) {
+func (r customerRepositoryDB) Signup(username string, password []byte) (user Customer, err error) {
 
 	query := "insert user (username, password) values (?, ?)"
-	result, err := r.db.Exec(query, request.Username, string(password))
+	// result, err := r.db.Exec(query, request.Username, string(password))
+	result, err := r.db.Exec(query, username, string(password))
+
 	if err != nil {
 		return user, fiber.NewError(fiber.StatusUnprocessableEntity, err.Error())
 	}
@@ -34,7 +36,7 @@ func (r customerRepositoryDB) Signup(request SignupRequest) (user Customer, err 
 
 	user = Customer{
 		Id:       int(id),
-		Username: request.Username,
+		Username: username,
 		Password: string(password),
 	}
 

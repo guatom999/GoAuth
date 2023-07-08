@@ -7,6 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
 	"github.com/guatom999/go-auth/repositories"
+	"github.com/guatom999/go-auth/service"
 	"github.com/jmoiron/sqlx"
 	"github.com/spf13/viper"
 )
@@ -22,6 +23,7 @@ func main() {
 	db := initDB()
 
 	accountRepositoryDB := repositories.NewAccountRepository(db)
+	accountService := service.NewAccountService(accountRepositoryDB)
 
 	if err != nil {
 		panic(err)
@@ -33,7 +35,7 @@ func main() {
 
 	app := fiber.New()
 
-	app.Post("/signup", accountRepositoryDB.Signup)
+	app.Post("/signup", accountService.Signup)
 	// app.Post("/signin", accountRepositoryDB.Signin)
 	app.Static("/", "./index", fiber.Static{
 		Index:         "index.html",

@@ -2,24 +2,20 @@ package service
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/jmoiron/sqlx"
+	"github.com/guatom999/go-auth/repositories"
 	"golang.org/x/crypto/bcrypt"
 )
 
-type User struct {
-	Id       int    `db:"id"`
-	Username string `db:"username"`
-	Password string `db:"password"`
+type accountService struct {
+	accountRepo repositories.CustomerRepository
 }
 
-func Signup(c *fiber.Ctx) error {
+func NewAccountService(accountRepo repositories.CustomerRepository) AccountService {
+	return accountService{accountRepo: accountRepo}
+}
+
+func (a accountService) Signup(c *fiber.Ctx) (err error) {
 	request := SignUpRequest{}
-
-	db, err := sqlx.Open("mysql", "root:Bossza555@tcp(127.0.0.1:3306)/user")
-
-	if err != nil {
-		return fiber.ErrBadGateway
-	}
 
 	err = c.BodyParser(&request)
 	if err != nil {
@@ -35,22 +31,10 @@ func Signup(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusUnprocessableEntity, err.Error())
 	}
 
-	query := "insert into user (username, password) values (? , ?)"
+	user, err := a.accountRepo.Signup(request.Username, password)
 
-	result, err := db.Exec(query, request.Username, string(password))
 	if err != nil {
-		return fiber.NewError(fiber.StatusUnprocessableEntity, err.Error())
-	}
-
-	id, err := result.LastInsertId()
-	if err != nil {
-		return fiber.NewError(fiber.StatusUnprocessableEntity, err.Error())
-	}
-
-	user := User{
-		Id:       int(id),
-		Username: request.Username,
-		Password: string(password),
+		return fiber.ErrUnprocessableEntity
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(user)
