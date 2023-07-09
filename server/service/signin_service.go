@@ -16,7 +16,7 @@ import (
 // 	Password string `db:"password"`
 // }
 
-const jwtSecret = "BadzBoss"
+// const jwtSecret = "BadzBoss"
 
 // type LoginRequest struct {
 // 	Username string `json:"username"`

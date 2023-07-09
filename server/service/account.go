@@ -9,5 +9,5 @@ type UserAccount struct {
 
 type AccountService interface {
 	Signup(c *fiber.Ctx) error
-	// Signin(c *fiber.Ctx) error
+	Signin(c *fiber.Ctx) error
 }

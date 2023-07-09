@@ -35,6 +35,7 @@ func main() {
 
 	app := fiber.New()
 
+	app.Post("/signin", accountService.Signin)
 	app.Post("/signup", accountService.Signup)
 	// app.Post("/signin", accountRepositoryDB.Signin)
 	app.Static("/", "./index", fiber.Static{

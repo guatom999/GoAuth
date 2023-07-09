@@ -20,6 +20,6 @@ type CustomerRepository interface {
 	// Create(Customer) (*Customer, error)
 	Signup(username string, password []byte) (Customer, error)
 	// Signup(c *fiber.Ctx) error
-	// Signin(c *fiber.Ctx) error
+	Signin(username string) (Customer, error)
 	//
 }
