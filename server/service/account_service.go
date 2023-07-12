@@ -87,6 +87,11 @@ func (a accountService) Signup(c *fiber.Ctx) (err error) {
 // 	})
 // }
 
+type authCustomClaims struct {
+	Username string `json:"username"`
+	jwt.StandardClaims
+}
+
 func (a accountService) Signin(c *fiber.Ctx) error {
 
 	request := LoginRequest{}
@@ -110,12 +115,20 @@ func (a accountService) Signin(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusNotFound, "Incorrect username or password")
 	}
 
-	cliams := jwt.StandardClaims{
-		Issuer:    strconv.Itoa(user.Id),
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	claims := &authCustomClaims{
+		user.Username,
+		jwt.StandardClaims{
+			Issuer:    strconv.Itoa(user.Id),
+			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+		},
 	}
 
-	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, cliams)
+	// cliams := jwt.StandardClaims{
+	// 	Issuer:    strconv.Itoa(user.Id),
+	// 	ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	// }
+
+	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, err := jwtToken.SignedString([]byte(jwtSecret))
 	if err != nil {
 		return fiber.ErrInternalServerError
