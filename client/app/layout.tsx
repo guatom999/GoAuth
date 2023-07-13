@@ -8,7 +8,7 @@ import Navbar from '../components/navbar/Navbar'
 import Button from '../components/Button'
 import ClientOnly from '../components/ClientOnly'
 import Modal from '../components/modal/Modal'
-
+// import getCurrentUser from '../components/actions/getCurrentUser'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -45,11 +45,13 @@ export default function RootLayout({
         outline label="My Button" 
         /> */}
 
-        {/* <RegisterModal /> */}
         {/* <Modal/> */}
         <LoginModal/>
+        <RegisterModal />
         {/* <RegisterModal/> */}
-        <Navbar />
+        <Navbar 
+        // currentUser={currentUser}
+        />
         {/* </ClientOnly> */}
         {/* {children} */}
       </body>

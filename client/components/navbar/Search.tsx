@@ -57,7 +57,7 @@ const Search = () => {
                     gap-3
                     "
                 >
-                    <div className="pl-5 hidden sm:block">Add Guests</div>
+                    <div className="pl-5 hidden sm:block">Search</div>
                     <div
                         className="
                             

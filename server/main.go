@@ -6,6 +6,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/guatom999/go-auth/repositories"
 	"github.com/guatom999/go-auth/service"
 	"github.com/jmoiron/sqlx"
@@ -34,6 +35,8 @@ func main() {
 	// router.HandleFunc("/singup", accountHandler.NewAccount).Methods(http.MethodPost)
 
 	app := fiber.New()
+
+	app.Use(cors.New())
 
 	app.Post("/signin", accountService.Signin)
 	app.Post("/signup", accountService.Signup)

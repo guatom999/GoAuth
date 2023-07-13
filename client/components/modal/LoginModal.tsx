@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react'
 import axios from 'axios'
 import { AiFillGithub } from 'react-icons/ai'
 import { FcGoogle } from 'react-icons/fc'
-import { useCallback , useState , useEffect } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import {
     FieldValues,
     SubmitHandler,
@@ -24,288 +24,149 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 
 const LoginModal = () => {
-  const router = useRouter();
-  const registerModal = useRegisterModal();
-  const loginModal = useLoginModal();
-  const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const registerModal = useRegisterModal();
+    const loginModal = useLoginModal();
+    const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FieldValues>({
-      defaultValues: {
-          email: '',
-          password: '',
-      }
-  });
+    const { register, handleSubmit, formState: { errors } } = useForm<FieldValues>(
+        {
+            defaultValues: {
+                username: '',
+                password: '',
+            }
+        }
+    );
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-      setIsLoading(true);
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
 
-      signIn('credentials' , {
-          ...data,
-          redirect:false,
-      }).then((callback) => {
-          setIsLoading(false);
+        console.log("data is ====>" , data)
+        setIsLoading(true);
 
-          if(callback?.ok){
-              toast.success('Logged In')
-              router.refresh();
-              loginModal.onClose();
-          }
 
-          if(callback?.error){
-              toast.error(callback.error)
-          }
-      })
+        signIn('credentials', {
+            ...data,
+            redirect:false
+        })
+        .then((res) => {
+            console.log("res is ==>" , res)
+        }).catch((err) => {
+            console.log("error is ===>" , err)
+        }).finally(() => {
+            setIsLoading(false)
+        })
+        // signIn('credentials', {
+        //     ...data,
+        //     redirect: false,
+        // }).then((callback) => {
+        //     console.log("callback is ===>" , callback)
+        //     setIsLoading(false);
 
-      // axios.post('/api/register', data).then(() => {
-      //     registerModal.onClose();
-      // }).catch((error) => {
-      //     toast.error("Something Went Wrong")
-      // }).finally(() => {
-      //     setIsLoading(false)
-      // })
-  }
+        //     if (callback?.ok) {
+        //         toast.success('Logged In')
+        //         router.refresh();
+        //         loginModal.onClose();
+        //     }
 
-  const bodyContent = (
-      <div className="flex flex-col gap-4">
-          <Heading
-              title="Welcome back"
-              subtitle="Login to your account"
-          />
-          <Input
-              id="email"
-              label="Email"
-              disabled={isLoading}
-              register={register}
-              errors={errors}
-              required
-          />
-          <Input
-              id="password"
-              label="Password"
-              type="password"
-              disabled={isLoading}
-              register={register}
-              errors={errors}
-              required
-          />
-      </div>
-  )
+        //     if (callback?.error) {
+        //         toast.error(callback.error)
+        //     }
+        // })
 
-  const footerContent = (
-      <div
-          className='flex flex-col gap-4 mt-3'
-      >
-          <hr />
-          <Button
-              outline
-              label="Continue with Google"
-              icon={FcGoogle}
-              onClick={() => { }}
-          />
-          <Button
-              outline
-              label="Continue with Github"
-              icon={AiFillGithub}
-              onClick={() => signIn('github')}
-          />
-          <div
-              className='
-                  text-neutral-500
-                  text-center
-                  mt-4
-                  font-light
-              '
-          >
-              <div className='justify-center flex flex-row  items-center text-center gap-2'>
-                  <div>
-                      Already have an account
-                  </div>
-                  <div
-                      onClick={registerModal.onClose}
-                      className='
-                      text-neutral-800
-                      cursor-pointer
-                      hover:underline
-                      font-bold    
-                      '
-                  >
-                      Login
-                  </div>
+        // axios.post('/api/signin', data).then(() => {
+        //     registerModal.onClose();
+        // }).catch((error) => {
+        //     toast.error("Something Went Wrong")
+        // }).finally(() => {
+        //     setIsLoading(false)
+        // })
+    }
 
-              </div>
+    const bodyContent = (
+        <div className="flex flex-col gap-4">
+            <Heading
+                title="Login to your account"
+            // subtitle="Login to your account"
+            />
+            <Input
+                id="username"
+                label="Username"
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+                required
+            />
+            <Input
+                id="password"
+                label="Password"
+                type="password"
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+                required
+            />
+        </div>
+    )
 
-          </div>
-      </div>
-  )
+    //   const footerContent = (
+    //       <div
+    //           className='flex flex-col gap-4 mt-3'
+    //       >
+    //           <hr />
+    //           <Button
+    //               outline
+    //               label="Continue with Google"
+    //               icon={FcGoogle}
+    //               onClick={() => { }}
+    //           />
+    //           <Button
+    //               outline
+    //               label="Continue with Github"
+    //               icon={AiFillGithub}
+    //               onClick={() => signIn('github')}
+    //           />
+    //           <div
+    //               className='
+    //                   text-neutral-500
+    //                   text-center
+    //                   mt-4
+    //                   font-light
+    //               '
+    //           >
+    //               <div className='justify-center flex flex-row  items-center text-center gap-2'>
+    //                   <div>
+    //                       Already have an account
+    //                   </div>
+    //                   <div
+    //                       onClick={registerModal.onClose}
+    //                       className='
+    //                       text-neutral-800
+    //                       cursor-pointer
+    //                       hover:underline
+    //                       font-bold    
+    //                       '
+    //                   >
+    //                       Login
+    //                   </div>
 
-  return (
-      <Modal
-          disabled={isLoading}
-          isOpen={loginModal.isOpen}
-          title="Login"
-          actionLabel="Continue"
-          onClose={loginModal.onClose}
-          onSubmit={handleSubmit(onSubmit)}
-          body={bodyContent}
-          footer={footerContent}
-      />
-  );
+    //               </div>
+
+    //           </div>
+    //       </div>
+    //   )
+
+    return (
+        <Modal
+            disabled={isLoading}
+            isOpen={loginModal.isOpen}
+            title="Login"
+            actionLabel="Continue"
+            onClose={loginModal.onClose}
+            onSubmit={handleSubmit(onSubmit)}
+            body={bodyContent}
+        //   footer={footerContent}
+        />
+    );
 }
 
 export default LoginModal
-
-
-
-// 'use client'
-
-// import { signIn } from 'next-auth/react'
-// import axios from 'axios'
-// import { AiFillGithub } from 'react-icons/ai'
-// import { FcGoogle } from 'react-icons/fc'
-// import { useCallback, useState } from 'react'
-// import {
-//     FieldValues,
-//     SubmitHandler,
-//     useForm
-// } from "react-hook-form";
-
-// import { toast } from 'react-hot-toast'
-
-// import useRegisterModal from '@/app/hooks/useRegisterModal'
-// import Modal from './Modal'
-// import Heading from '../Heading'
-// import Input from '../inputs/Input'
-// import Button from '../Button'
-// import useLoginModal from '@/app/hooks/useLoginModal'
-// import { useRouter } from 'next/navigation'
-
-// const LoginModal = () => {
-//     const router = useRouter();
-//     const registerModal = useRegisterModal();
-//     const loginModal = useLoginModal();
-//     const [isLoading, setIsLoading] = useState(false);
-
-//     const { register, handleSubmit, formState: { errors } } = useForm<FieldValues>({
-//         defaultValues: {
-//             email: '',
-//             password: '',
-//         }
-//     });
-
-//     const onSubmit: SubmitHandler<FieldValues> = (data) => {
-//         setIsLoading(true);
-
-//         signIn('credentials' , {
-//             ...data,
-//             redirect:false,
-//         }).then((callback) => {
-//             setIsLoading(false);
-
-//             if(callback?.ok){
-//                 toast.success('Logged In')
-//                 router.refresh();
-//                 loginModal.onClose();
-//             }
-
-//             if(callback?.error){
-//                 toast.error(callback.error)
-//             }
-//         })
-
-//         // axios.post('/api/register', data).then(() => {
-//         //     registerModal.onClose();
-//         // }).catch((error) => {
-//         //     toast.error("Something Went Wrong")
-//         // }).finally(() => {
-//         //     setIsLoading(false)
-//         // })
-//     }
-
-//     const bodyContent = (
-//         <div className="flex flex-col gap-4">
-//             <Heading
-//                 title="Welcome back"
-//                 subtitle="Login to your account"
-//             />
-//             <Input
-//                 id="email"
-//                 label="Email"
-//                 disabled={isLoading}
-//                 register={register}
-//                 errors={errors}
-//                 required
-//             />
-//             <Input
-//                 id="password"
-//                 label="Password"
-//                 type="password"
-//                 disabled={isLoading}
-//                 register={register}
-//                 errors={errors}
-//                 required
-//             />
-//         </div>
-//     )
-
-//     const footerContent = (
-//         <div
-//             className='flex flex-col gap-4 mt-3'
-//         >
-//             <hr />
-//             <Button
-//                 outline
-//                 label="Continue with Google"
-//                 icon={FcGoogle}
-//                 onClick={() => { }}
-//             />
-//             <Button
-//                 outline
-//                 label="Continue with Github"
-//                 icon={AiFillGithub}
-//                 onClick={() => signIn('github')}
-//             />
-//             <div
-//                 className='
-//                     text-neutral-500
-//                     text-center
-//                     mt-4
-//                     font-light
-//                 '
-//             >
-//                 <div className='justify-center flex flex-row  items-center text-center gap-2'>
-//                     <div>
-//                         Already have an account
-//                     </div>
-//                     <div
-//                         onClick={registerModal.onClose}
-//                         className='
-//                         text-neutral-800
-//                         cursor-pointer
-//                         hover:underline
-//                         font-bold    
-//                         '
-//                     >
-//                         Login
-//                     </div>
-
-//                 </div>
-
-//             </div>
-//         </div>
-//     )
-
-//     return (
-//         <Modal
-//             disabled={isLoading}
-//             isOpen={loginModal.isOpen}
-//             title="Login"
-//             actionLabel="Continue"
-//             onClose={loginModal.onClose}
-//             onSubmit={handleSubmit(onSubmit)}
-//             body={bodyContent}
-//             footer={footerContent}
-//         />
-//     );
-// }
-
-// export default LoginModal

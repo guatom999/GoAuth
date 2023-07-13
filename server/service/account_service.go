@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
@@ -44,7 +45,13 @@ func (a accountService) Signup(c *fiber.Ctx) (err error) {
 		return fiber.NewError(fiber.StatusUnprocessableEntity, err.Error())
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(user)
+	return c.JSON(fiber.Map{
+		"status": fiber.StatusCreated,
+		"user":   user,
+	})
+
+	// Old return
+	// return c.Status(fiber.StatusCreated).JSON(user)
 }
 
 // func (a accountService) Signin(c *fiber.Ctx) error {
@@ -95,19 +102,23 @@ type authCustomClaims struct {
 func (a accountService) Signin(c *fiber.Ctx) error {
 
 	request := LoginRequest{}
+	fmt.Println("Hererererere")
 	err := c.BodyParser(&request)
+
+	fmt.Println("request is", request)
+
 	if err != nil {
 		return err
 	}
 
 	if request.Username == "" || request.Password == "" {
-		return fiber.ErrUnprocessableEntity
+		return fiber.NewError(fiber.StatusNotFound, "Something Wrong")
 	}
 
 	user, err := a.accountRepo.Signin(request.Username)
 
 	if err != nil {
-		return fiber.ErrUnprocessableEntity
+		return fiber.NewError(fiber.StatusNotFound, "Case two Error")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password))
@@ -134,7 +145,10 @@ func (a accountService) Signin(c *fiber.Ctx) error {
 		return fiber.ErrInternalServerError
 	}
 
+	fmt.Println("Coming in")
+
 	return c.JSON(fiber.Map{
+		"status":   "ok",
 		"jwtToken": token,
 	})
 

@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import axios from 'axios'
 
 interface LoginModalStore {
     isOpen: boolean;
