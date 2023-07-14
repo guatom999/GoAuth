@@ -8,7 +8,9 @@ import Navbar from '../components/navbar/Navbar'
 import Button from '../components/Button'
 import ClientOnly from '../components/ClientOnly'
 import Modal from '../components/modal/Modal'
-// import getCurrentUser from '../components/actions/getCurrentUser'
+import getCurrentUser from '../components/actions/getCurrentUser'
+import { SessionProvider } from "next-auth/react"
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,13 +23,15 @@ export const metadata: Metadata = {
   description: 'SomeShitWebApp',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
 
-  // const currentUser = await getCurrentUser()
+  const currentUser = await getCurrentUser()
+
+  console.log(currentUser)
 
   return (
     <html lang="en">
@@ -46,11 +50,11 @@ export default function RootLayout({
         /> */}
 
         {/* <Modal/> */}
-        <LoginModal/>
+        <LoginModal />
         <RegisterModal />
         {/* <RegisterModal/> */}
-        <Navbar 
-        // currentUser={currentUser}
+        <Navbar
+          currentUser={currentUser}
         />
         {/* </ClientOnly> */}
         {/* {children} */}

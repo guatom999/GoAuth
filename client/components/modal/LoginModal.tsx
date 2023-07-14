@@ -53,6 +53,7 @@ const LoginModal = () => {
         }).catch((err) => {
             console.log("error is ===>" , err)
         }).finally(() => {
+            loginModal.onClose();
             setIsLoading(false)
         })
         // signIn('credentials', {

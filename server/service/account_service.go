@@ -145,11 +145,14 @@ func (a accountService) Signin(c *fiber.Ctx) error {
 		return fiber.ErrInternalServerError
 	}
 
+	_ = token
+
 	fmt.Println("Coming in")
 
 	return c.JSON(fiber.Map{
-		"status":   "ok",
-		"jwtToken": token,
+		"status": "ok",
+		"user":   user.Username,
+		// "jwtToken": token,
 	})
 
 	// return c.JSON(user)

@@ -1,10 +1,13 @@
-import NextAuth from "next-auth"
+import NextAuth, { AuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
 import axios from 'axios'
 
+// import bcrypt from 'bcrypt'
 
-export const authOptions = {
+
+
+export const authOptions: any = {
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
@@ -15,7 +18,7 @@ export const authOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text"},
+        username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" }
       },
 
@@ -26,37 +29,42 @@ export const authOptions = {
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        console.log("credentials is ===>"  , credentials)
+        // console.log("credentials is ===>"  , credentials)
 
         let data = {
-          username : credentials?.username,
-          password : credentials?.password
+          username: credentials?.username,
+          password: credentials?.password
         }
 
-        console.log("data is ================================>" , data)
+        // console.log("data is ================================>" , data)
 
-        const res = await axios.post("http://127.0.0.1:8000/signin", data)
-        .then((res) => {
-          console.log("res from go is ===>" , res)
-        }).catch((error) => {
-          console.log("error is =====>" , error)
-        })
-        // const res = await fetch("http://127.0.0.1:8000/signin", {
-        //   method: 'POST',
-        //   body: JSON.stringify(data),
-        //   headers: { "Content-Type": "application/json" }
+        // const res = await axios.post("http://127.0.0.1:8000/signin", data)
+        // .then((res) => {
+        //   console.log("res from go is ===>" , res.data)
+        // }).catch((error) => {
+        //   console.log("error is =====>" , error)
         // })
-        console.log("res from go is ===>" , res)
+
+        const res = await fetch("http://127.0.0.1:8000/signin", {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" }
+        })
+        const user = await res.json()
+
+        console.log("res from go is ===>", user.user)
+
+
+        // console.log("user is ===>" , user)
+
+        if (res.status && user) {
+          return user.user
+        }
+
         // const user = await res.json()
 
-        // if (res.ok && user) {
-        //   return user
-        // }
 
-        // const user = await res.json()
 
-        
-  
         // If no error and we have user data, return it
         // if (res.ok && user) {
         //   return user
@@ -65,7 +73,15 @@ export const authOptions = {
         return null
       }
     })
-  ]
+  ],
+  pages: {
+    signIn: '/',
+  },
+  session: {
+    strategy: "jwt"
+  },
+  secret: "LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=",
+
 }
 export default NextAuth(authOptions)
 
