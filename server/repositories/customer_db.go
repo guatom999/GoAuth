@@ -6,6 +6,7 @@ import (
 )
 
 type customerRepositoryDB struct {
+	// db *sqlx.DB
 	db *sqlx.DB
 }
 

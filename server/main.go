@@ -7,10 +7,13 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/guatom999/go-auth/handler"
 	"github.com/guatom999/go-auth/repositories"
 	"github.com/guatom999/go-auth/service"
 	"github.com/jmoiron/sqlx"
 	"github.com/spf13/viper"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -22,10 +25,15 @@ func main() {
 	initConfig()
 
 	db := initDB()
+	db2 := initData()
 
 	accountRepositoryDB := repositories.NewAccountRepository(db)
+	productRepositoryDB := repositories.NewProductRepository(db2)
+	// _ = productRepositoryDB
 	accountService := service.NewAccountService(accountRepositoryDB)
 
+	productService := service.NewProductService(productRepositoryDB)
+	catalogHandler := handler.NewCatalogHandler(productService)
 	if err != nil {
 		panic(err)
 	}
@@ -40,6 +48,7 @@ func main() {
 
 	app.Post("/signin", accountService.Signin)
 	app.Post("/signup", accountService.Signup)
+	app.Get("/products", catalogHandler.GetProducts)
 	// app.Post("/signin", accountRepositoryDB.Signin)
 	app.Static("/", "./index", fiber.Static{
 		Index:         "index.html",
@@ -82,6 +91,29 @@ func initDB() *sqlx.DB {
 	db.SetMaxOpenConns(10)
 
 	return db
+}
+
+func initData() *gorm.DB {
+	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v",
+		viper.GetString("db2.username"),
+		viper.GetString("db2.password"),
+		viper.GetString("db2.host"),
+		viper.GetString("db2.port"),
+		viper.GetString("db2.database"),
+	)
+
+	dial := mysql.Open(dsn)
+
+	db, err := gorm.Open(dial, &gorm.Config{
+		// Logger: logger.Default.LogMode(logger.Silent),
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	return db
+
 }
 
 // type User struct {

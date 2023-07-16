@@ -8,8 +8,11 @@ import Navbar from '../components/navbar/Navbar'
 import Button from '../components/Button'
 import ClientOnly from '../components/ClientOnly'
 import Modal from '../components/modal/Modal'
+
 import getCurrentUser from '../components/actions/getCurrentUser'
-import { SessionProvider } from "next-auth/react"
+
+import ToasterProvider from "./providers/ToastProviders"
+import Providers from '../components/Providers'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -31,33 +34,22 @@ export default async function RootLayout({
 
   const currentUser = await getCurrentUser()
 
-  console.log(currentUser)
+  // console.log(currentUser)
 
   return (
     <html lang="en">
       <body
       // className={inter.className}
       >
-        {/* <ClientOnly> */}
-        {/* <LoginModal/> */}
-        {/* <Button
-          outline={true}
-          disabled={false}
-          label="Hello"
-          small={true}
-        onClick={handleSecondaryAction}
-        outline label="My Button" 
-        /> */}
-
-        {/* <Modal/> */}
-        <LoginModal />
-        <RegisterModal />
-        {/* <RegisterModal/> */}
-        <Navbar
+        {/* <Providers> */}
+          <ToasterProvider />
+          <LoginModal />
+          <RegisterModal />
+          <Navbar
           currentUser={currentUser}
-        />
-        {/* </ClientOnly> */}
-        {/* {children} */}
+          />
+          {children}
+        {/* </Providers> */}
       </body>
     </html>
   )

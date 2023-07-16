@@ -52,35 +52,36 @@ export const authOptions: any = {
         })
         const user = await res.json()
 
-        console.log("res from go is ===>", user.user)
-
-
-        // console.log("user is ===>" , user)
-
         if (res.status && user) {
-          return user.user
+          return user
+        } else {
+          return null
         }
-
-        // const user = await res.json()
-
-
 
         // If no error and we have user data, return it
         // if (res.ok && user) {
         //   return user
         // }
         // Return null if user data could not be retrieved
-        return null
       }
-    })
-  ],
-  pages: {
-    signIn: '/',
-  },
+    })],
+  secret: "LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=",
   session: {
     strategy: "jwt"
   },
-  secret: "LlKq6ZtYbr+hTC073mAmAh9/h2HwMfsFo4hrfCx5mLg=",
+  // callbacks: {
+
+  //   async jwt({ token, user ,  session }) {
+
+  //     return { ...token, ...user };
+  //   },
+
+  //   session({ session, token, user }) {
+  //     return session // The return type will match the one returned in `useSession()`
+  //   },
+  // },
+
+
 
 }
 export default NextAuth(authOptions)

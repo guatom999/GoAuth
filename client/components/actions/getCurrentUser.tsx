@@ -13,7 +13,7 @@ export default async function getCurrentUser() {
     try{
         const session = await getSession()
 
-        // const { data : session } = useSession<any>()
+        // const { data : session } = useSession()
 
         console.log("session is" , session)
 

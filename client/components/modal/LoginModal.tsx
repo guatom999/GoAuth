@@ -49,38 +49,13 @@ const LoginModal = () => {
             redirect:false
         })
         .then((res) => {
-            console.log("res is ==>" , res)
+            router.refresh();
         }).catch((err) => {
-            console.log("error is ===>" , err)
         }).finally(() => {
             loginModal.onClose();
             setIsLoading(false)
         })
-        // signIn('credentials', {
-        //     ...data,
-        //     redirect: false,
-        // }).then((callback) => {
-        //     console.log("callback is ===>" , callback)
-        //     setIsLoading(false);
-
-        //     if (callback?.ok) {
-        //         toast.success('Logged In')
-        //         router.refresh();
-        //         loginModal.onClose();
-        //     }
-
-        //     if (callback?.error) {
-        //         toast.error(callback.error)
-        //     }
-        // })
-
-        // axios.post('/api/signin', data).then(() => {
-        //     registerModal.onClose();
-        // }).catch((error) => {
-        //     toast.error("Something Went Wrong")
-        // }).finally(() => {
-        //     setIsLoading(false)
-        // })
+        
     }
 
     const bodyContent = (
