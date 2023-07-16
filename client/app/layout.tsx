@@ -8,6 +8,7 @@ import Navbar from '../components/navbar/Navbar'
 import Button from '../components/Button'
 import ClientOnly from '../components/ClientOnly'
 import Modal from '../components/modal/Modal'
+import Sidebar from '../components/sidebar/SideBar'
 
 import getCurrentUser from '../components/actions/getCurrentUser'
 
@@ -48,6 +49,7 @@ export default async function RootLayout({
           <Navbar
           currentUser={currentUser}
           />
+          <Sidebar children={children}/>
           {children}
         {/* </Providers> */}
       </body>
