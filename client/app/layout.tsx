@@ -8,12 +8,13 @@ import Navbar from '../components/navbar/Navbar'
 import Button from '../components/Button'
 import ClientOnly from '../components/ClientOnly'
 import Modal from '../components/modal/Modal'
-import Sidebar from '../components/sidebar/SideBar'
+import SideBar from '../components/sidebar/SideBar'
 
 import getCurrentUser from '../components/actions/getCurrentUser'
 
 import ToasterProvider from "./providers/ToastProviders"
 import Providers from '../components/Providers'
+import DashBoard from '../components/dashboard/DashBoard'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -40,17 +41,18 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-      // className={inter.className}
+        className={inter.className}
       >
         {/* <Providers> */}
-          <ToasterProvider />
-          <LoginModal />
-          <RegisterModal />
-          <Navbar
-          currentUser={currentUser}
-          />
-          <Sidebar children={children}/>
-          {children}
+        <ToasterProvider />
+        <LoginModal />
+        <RegisterModal />
+        <Navbar
+        // currentUser={currentUser}
+        />
+
+
+        {children}
         {/* </Providers> */}
       </body>
     </html>

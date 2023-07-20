@@ -19,7 +19,7 @@ import Input from '../inputs/Input'
 import Button from '../Button'
 import { signIn } from 'next-auth/react'
 
-const RegisterModal = () => {
+const RegisterModal : React.FC= () => {
     const registerModal = useRegisterModal();
     const [isLoading, setIsLoading] = useState(false);
 

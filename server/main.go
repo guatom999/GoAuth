@@ -49,6 +49,7 @@ func main() {
 	app.Post("/signin", accountService.Signin)
 	app.Post("/signup", accountService.Signup)
 	app.Get("/products", catalogHandler.GetProducts)
+	app.Get("/totalproductsprice", catalogHandler.GetTotalProductsPrice)
 	// app.Post("/signin", accountRepositoryDB.Signin)
 	app.Static("/", "./index", fiber.Static{
 		Index:         "index.html",

@@ -28,3 +28,15 @@ func (obj catalogHandler) GetProducts(c *fiber.Ctx) (err error) {
 		"products": product,
 	})
 }
+
+func (obj catalogHandler) GetTotalProductsPrice(c *fiber.Ctx) error {
+
+	totalPrice, err := obj.productService.GetTotalProductsPrice()
+
+	if err != nil {
+		fmt.Println(err)
+		return fiber.NewError(fiber.StatusNotFound)
+	}
+
+	return c.JSON(totalPrice)
+}

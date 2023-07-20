@@ -10,21 +10,20 @@ const Logo = () => {
     <div
       className="flex flex-row gap-3 md:gap-0"
     >
-        {/* <Image alt="Logo" 
+        <Image alt="Logo" 
         className="
             flex 
             flex-row 
             items-center 
             justify-between 
             gap-3 
-            md:gap-0
-            
+            rounded-full
             "
         height="100"
         width="40"
         src="/images/photo.png"
         >
-        </Image> */}
+        </Image>
     </div>
   )
 }
