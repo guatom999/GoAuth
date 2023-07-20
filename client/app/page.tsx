@@ -18,10 +18,9 @@ export default function Home() {
       // 2xl:grid-cols-6
       // gap-8
       // "
-      className="pt-20"
+      className="pt-24"
     >
       {/* <DashBoardContainer> */}
-        <SideBar />
         <DashBoard/>
       {/* </DashBoardContainer> */}
 

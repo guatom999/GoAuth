@@ -10,6 +10,6 @@ type Product struct {
 
 type ProductServicee interface {
 	GetAllProducts() ([]Product, error)
-	GetTotalProductsPrice() (float64, error)
+	GetTotalProductsPrice() (float64, float64, error)
 	// Get
 }

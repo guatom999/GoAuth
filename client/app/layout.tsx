@@ -50,6 +50,7 @@ export default async function RootLayout({
         <Navbar
         // currentUser={currentUser}
         />
+        <SideBar />
 
 
         {children}

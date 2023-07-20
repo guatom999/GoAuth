@@ -33,12 +33,12 @@ func (obj productService) GetAllProducts() (products []Product, err error) {
 	return products, nil
 }
 
-func (obj productService) GetTotalProductsPrice() (price float64, err error) {
+func (obj productService) GetTotalProductsPrice() (price float64, quantity float64, err error) {
 
 	productsFromDB, err := obj.productRepo.GetAll()
 
 	if err != nil {
-		return 0, err
+		return 0, 0, err
 
 	}
 
@@ -46,6 +46,7 @@ func (obj productService) GetTotalProductsPrice() (price float64, err error) {
 
 	for _, product := range productsFromDB {
 		price = price + float64(product.Price)
+		quantity = quantity + float64(product.Quantity)
 
 		// products = append(products, Product{
 		// 	ID:       product.ID,
@@ -57,6 +58,6 @@ func (obj productService) GetTotalProductsPrice() (price float64, err error) {
 
 	}
 
-	return price, nil
+	return price, quantity, nil
 
 }

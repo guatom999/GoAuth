@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { RxSketchLogo, RxDashboard, RxPerson } from 'react-icons/rx';
+import {  RxDashboard, RxPerson  } from 'react-icons/rx';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { FiSettings } from 'react-icons/fi';
 import Logo from './Logo'
@@ -13,7 +13,7 @@ interface SideBarProps {
 
 const Sidebar: React.FC<SideBarProps> = ({ children }) => {
   return (
-    <div className="fixed">
+    <div className="fixed pt-[84px]">
       <div className="w-20 h-screen p-4 border-r-[1px] flex flex-col">
         <div className='flex flex-col items-center'>
           <Link href='/'>
@@ -23,9 +23,9 @@ const Sidebar: React.FC<SideBarProps> = ({ children }) => {
           </Link>
         </div>
         <div className='flex flex-col items-center'>
-          <Link href='/'>
+          <Link href='/customer'>
             <div className=' hover:bg-gray-200 hover:rounded-3xl cursor-pointer my-4 p-3 inline-block'>
-              <RxDashboard size={20} />
+              <RxPerson size={20} />
             </div>
           </Link>
         </div>

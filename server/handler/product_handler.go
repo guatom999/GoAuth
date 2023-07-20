@@ -31,12 +31,16 @@ func (obj catalogHandler) GetProducts(c *fiber.Ctx) (err error) {
 
 func (obj catalogHandler) GetTotalProductsPrice(c *fiber.Ctx) error {
 
-	totalPrice, err := obj.productService.GetTotalProductsPrice()
+	totalPrice, totalQuantity, err := obj.productService.GetTotalProductsPrice()
 
 	if err != nil {
 		fmt.Println(err)
 		return fiber.NewError(fiber.StatusNotFound)
 	}
 
-	return c.JSON(totalPrice)
+	return c.JSON(fiber.Map{
+		"status":        "success",
+		"totalPrice":    totalPrice,
+		"totalQuantity": totalQuantity,
+	})
 }

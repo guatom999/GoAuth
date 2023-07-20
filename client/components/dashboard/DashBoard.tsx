@@ -9,15 +9,15 @@ const alt = "Bossza"
 
 const DashBoard: React.FC = async () => {
 
-  const totalPrice = await getProductsPrice({limit : 10})
+  const data = await getProductsPrice({limit : 10})
 
-  console.log(totalPrice)
+  console.log("data is " ,  data)
 
   return (
     <div className='grid xl:grid-cols-5 gap-4 p-4 pl-24'>
       <div className='lg:col-span-2 col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg'>
         <div className='flex flex-col w-full pb-4'>
-          <p className='text-2xl font-bold'>{totalPrice}</p>
+          <p className='text-2xl font-bold'>{data.totalPrice}</p>
           <p className='text-gray-600'>Total Products Price</p>
         </div>
         <p className='bg-green-200 flex justify-center items-center p-2 rounded-lg'>
@@ -26,21 +26,21 @@ const DashBoard: React.FC = async () => {
       </div>
       <div className='lg:col-span-2 col-span-1 bg-white flex justify-between w-full border p-4 rounded-lg'>
         <div className='flex flex-col w-full pb-4'>
-          <p className='text-2xl font-bold'>$1,437,876</p>
-          <p className='text-gray-600'>YTD Revenue</p>
+          <p className='text-2xl font-bold'>{data.totalQuantity}</p>
+          <p className='text-gray-600'>Total Products Quantity</p>
         </div>
-        <p className='bg-green-200 flex justify-center items-center p-2 rounded-lg'>
+        {/* <p className='bg-green-200 flex justify-center items-center p-2 rounded-lg'>
           <span className='text-green-700 text-lg'>+11%</span>
-        </p>
+        </p> */}
       </div>
       <div className='bg-white flex justify-between w-full border p-4 rounded-lg'>
         <div className='flex flex-col w-full pb-4'>
           <p className='text-2xl font-bold'>11,437</p>
           <p className='text-gray-600'>Customers</p>
         </div>
-        <p className='bg-green-200 flex justify-center items-center p-2 rounded-lg'>
+        {/* <p className='bg-green-200 flex justify-center items-center p-2 rounded-lg'>
           <span className='text-green-700 text-lg'>+17%</span>
-        </p>
+        </p> */}
       </div>
     </div>
     // <div
